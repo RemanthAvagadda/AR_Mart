@@ -9,20 +9,20 @@ app.use(cors({ origin: clientOrigin }))
 const dns = require('dns');
 const userRoutes = require('./routes/userRoutes')
 const productRoutes = require('./routes/productRoutes')
-dns.setServers(['8.8.8.8', '1.1.1.1', '0.0.0.0']);
+dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+
 
 const dotEnv = require('dotenv')
 
 dotEnv.config()
 const connectToMongoDb = async () => {
- try {
-  await mongoose.connect(process.env.MONGO_URL)
-  console.log("mongoDb connected successfull")
- }
- catch (error) {
-  console.log(error)
- }
-}
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log("MongoDB connected successfully");
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+  }
+};
 connectToMongoDb()
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use('/users', userRoutes)

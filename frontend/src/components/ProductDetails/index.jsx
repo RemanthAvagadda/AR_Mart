@@ -4,6 +4,15 @@ import Header from '../Header'
 import Cookies from 'js-cookie'
 import SimilarProducts from '../SimilarProducts'
 import CartList from '../../context/CartContext'
+
+const getProductImage = (image) => {
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+  if (!image) return 'https://via.placeholder.com/600x600?text=No+Image'
+  if (image.startsWith('http')) return image
+  if (image.startsWith('/')) return `${apiBaseUrl}${image}`
+  return image
+}
+
 const ProductDetails = () => {
   const [productDetails, setProductDetails] = useState({ product: {}, similarProducts: [] })
   const { updateList } = useContext(CartList)
@@ -46,7 +55,7 @@ const ProductDetails = () => {
     <>
       <Header />
       <div className="mt-4 flex flex-col gap-6 p-4 md:flex-row md:items-center md:justify-around">
-        <img className="w-full max-w-[420px] rounded-md object-cover md:w-[45%]" src={image} alt={name} />
+        <img className="h-72 w-full max-w-[420px] rounded-md object-contain sm:h-96 md:h-[420px] md:w-[45%]" src={getProductImage(image)} alt={name || 'Product'} />
         <div className="flex w-full flex-col justify-center gap-3 md:w-[45%]">
           <h1 className="text-3xl font-bold font-['Roboto'] sm:text-4xl">{name}</h1>
           <p className="text-base sm:text-xl">{description}</p>

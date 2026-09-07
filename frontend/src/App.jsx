@@ -9,6 +9,7 @@ import ProductDetails from './components/ProductDetails'
 import Cart from './components/Cart'
 import CartList from './context/CartContext'
 import AddProduct from './components/AddProduct'
+import ProtectedRoute from './components/ProtectedRoute'
 
 
 function App() {
@@ -50,13 +51,15 @@ function App() {
     <CartList.Provider value={{ cartItems, updateList: updateCartItem, increment: increment, decrement: decrement, remove: remove, clearCart: clearCart }}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/products" element={<AllProducts />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/add-product" element={<AddProduct />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<AllProducts />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/add-product" element={<AddProduct />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </CartList.Provider>

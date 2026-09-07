@@ -11,6 +11,14 @@ const paymentOptions = [
   'Wallet'
 ]
 
+const getProductImage = (image) => {
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+  if (!image) return 'https://via.placeholder.com/160x160?text=No+Image'
+  if (image.startsWith('http')) return image
+  if (image.startsWith('/')) return `${apiBaseUrl}${image}`
+  return image
+}
+
 const Cart = () => {
   const navigate = useNavigate()
   const { cartItems, increment, decrement, remove, clearCart } = useContext(CartList)
@@ -114,7 +122,7 @@ const Cart = () => {
             {cartItems.map(eachItem => (
               <li className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between" key={eachItem._id}>
                 <div className="flex items-center gap-3">
-                  <img className="h-20 w-20 rounded-md object-cover" src={eachItem.image} alt={eachItem.name} />
+                  <img className="h-20 w-20 rounded-md object-cover" src={getProductImage(eachItem.image)} alt={eachItem.name || 'Product'} />
                   <div>
                     <p className="font-semibold text-slate-800">{eachItem.name}</p>
                     <p className="text-sm text-slate-500">₹{eachItem.price} each</p>

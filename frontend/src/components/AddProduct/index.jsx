@@ -2,6 +2,8 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Cookies from 'js-cookie'
 
+const productCategories = ['Electronics', 'Clothing', 'Appliances', 'Groceries', 'Toys']
+
 const AddProduct = () => {
   const navigate = useNavigate()
   const [details, addDetails] = useState({
@@ -106,7 +108,18 @@ const AddProduct = () => {
 
             <div>
               <label className="mb-1 block font-medium text-slate-700">Category</label>
-              <input type="text" className="w-full rounded-lg border border-slate-300 p-3 outline-none focus:border-[#0b69ff]" onChange={onChangeDetails} name="category" placeholder="e.g. Clothing" />
+              <select
+                name="category"
+                value={details.category}
+                onChange={onChangeDetails}
+                required
+                className="w-full rounded-lg border border-slate-300 bg-white p-3 outline-none focus:border-[#0b69ff]"
+              >
+                <option value="" disabled>Select a category</option>
+                {productCategories.map(category => (
+                  <option key={category} value={category}>{category}</option>
+                ))}
+              </select>
             </div>
 
             <div>

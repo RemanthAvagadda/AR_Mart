@@ -1,15 +1,14 @@
 const jwt = require('jsonwebtoken')
 const dotEnv = require('dotenv')
-dotEnv.config
+dotEnv.config()
 const tokenVerfication = (req,res,next) => {
  const authHeader = req.headers['authorization']
- let token;
- if(authHeader === undefined){
-  res.status(401).json({message:"Authorization header is missing"})
+ if(!authHeader){
+  return res.status(401).json({message:"Authorization header is missing"})
  }
- token = authHeader.split(" ")[1]
- if(!token){
-  res.status(401).json({message:"Token is missing"})
+ const [scheme, token] = authHeader.split(" ")
+ if(scheme !== 'Bearer' || !token){
+  return res.status(401).json({message:"A Bearer token is required"})
  }
  jwt.verify(token,process.env.SECRET_KEY,(error,payload)=>{
   if(error){
