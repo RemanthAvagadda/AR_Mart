@@ -1,15 +1,8 @@
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CartList from '../../context/CartContext'
 import { LuDelete } from 'react-icons/lu'
 import Header from '../Header'
-
-const paymentOptions = [
-  'UPI',
-  'Credit/Debit Card',
-  'Net Banking',
-  'Wallet'
-]
 
 const getProductImage = (image) => {
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
@@ -22,7 +15,6 @@ const getProductImage = (image) => {
 const Cart = () => {
   const navigate = useNavigate()
   const { cartItems, increment, decrement, remove, clearCart } = useContext(CartList)
-  const [selectedPayment, setSelectedPayment] = useState('UPI')
 
   const subtotal = useMemo(() => {
     return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
@@ -75,12 +67,6 @@ const Cart = () => {
         theme: {
           color: '#0967d2'
         },
-        method: {
-          netbanking: selectedPayment === 'Net Banking',
-          card: selectedPayment === 'Credit/Debit Card',
-          upi: selectedPayment === 'UPI',
-          wallet: selectedPayment === 'Wallet'
-        }
       }
 
       const razorpay = new window.Razorpay(razorpayOptions)
@@ -161,21 +147,6 @@ const Cart = () => {
                 <span>Total</span>
                 <span>₹{subtotal}</span>
               </div>
-            </div>
-
-            <div className="mt-5 space-y-3">
-              <p className="font-medium text-slate-700">Payment Method</p>
-              {paymentOptions.map(option => (
-                <label key={option} className="flex items-center gap-2 rounded-lg border border-slate-200 p-2 text-sm text-slate-700">
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    checked={selectedPayment === option}
-                    onChange={() => setSelectedPayment(option)}
-                  />
-                  {option}
-                </label>
-              ))}
             </div>
 
             <button
