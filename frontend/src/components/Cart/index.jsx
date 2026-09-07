@@ -49,9 +49,9 @@ const Cart = () => {
     script.src = 'https://checkout.razorpay.com/v1/checkout.js'
     script.async = true
     script.onload = () => {
-      const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY
+      const razorpayKey = import.meta.env.RAZOREPAY_KEY
       if (!razorpayKey) {
-        alert('Razorpay key is missing. Add VITE_RAZORPAY_KEY in your frontend .env file.')
+        alert('Razorpay key is missing. Add RAZOREPAY_KEY in your frontend .env file.')
         return
       }
 

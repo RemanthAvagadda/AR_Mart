@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 const mongoose = require('mongoose')
-const path = require('path')
 const cors = require('cors')
 const clientOrigin = process.env.CLIENT_URL || 'http://localhost:5173'
 app.use(cors({ origin: clientOrigin }))
@@ -24,11 +23,10 @@ const connectToMongoDb = async () => {
   }
 };
 connectToMongoDb()
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use('/users', userRoutes)
 app.use('/products', productRoutes)
 const port = process.env.PORT || 3000
 app.listen(port, () => {
- console.log(`server running at ${port}`)
+  console.log(`server running at ${port}`)
 })
 
