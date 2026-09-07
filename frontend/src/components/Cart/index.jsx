@@ -50,9 +50,9 @@ const Cart = () => {
     script.async = true
     script.crossOrigin = 'anonymous'
     script.onload = () => {
-      const razorpayKey = import.meta.env.RAZOREPAY_KEY
+      const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY
       if (!razorpayKey) {
-        alert('Razorpay key is missing. Add RAZOREPAY_KEY in your frontend .env file.')
+        alert('Razorpay key is missing. Add VITE_RAZORPAY_KEY in your frontend .env file.')
         return
       }
 

@@ -62,7 +62,7 @@ Create a `.env` file inside the `frontend` folder:
 
 ```env
 VITE_API_BASE_URL=http://localhost:3000
-RAZOREPAY_KEY=rzp_test_your_key_here
+VITE_RAZORPAY_KEY=rzp_test_your_key_here
 ```
 
 You can copy from `frontend/.env.example`.
