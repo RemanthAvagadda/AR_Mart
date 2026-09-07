@@ -1,14 +1,18 @@
 
-import { useContext, useState } from 'react'
+import { useContext, useState, useMemo } from 'react'
 import Cookies from 'js-cookie'
 import { useNavigate, Link } from 'react-router-dom'
 import { HiMenu, HiX } from 'react-icons/hi'
 import CartList from '../../context/CartContext'
+import { isAdminUser } from '../../utils/jwtUtils'
 
 const Header = () => {
   const navigate = useNavigate()
   const { cartItems } = useContext(CartList)
   const [menuOpen, setMenuOpen] = useState(false)
+
+  const token = Cookies.get('jwt_token')
+  const isAdmin = useMemo(() => isAdminUser(token), [token])
 
   const onClickLogout = () => {
     Cookies.remove('jwt_token')
@@ -20,7 +24,8 @@ const Header = () => {
   const navItems = [
     { to: '/', label: 'Home' },
     { to: '/products', label: 'Products' },
-    { to: '/cart', label: `Cart${cartCount > 0 ? ` (${cartCount})` : ''}` }
+    { to: '/cart', label: `Cart${cartCount > 0 ? ` (${cartCount})` : ''}` },
+    ...(isAdmin ? [{ to: '/add-product', label: 'Add Product' }] : [])
   ]
 
   return (
@@ -43,7 +48,7 @@ const Header = () => {
 
         <ul className="hidden items-center gap-5 sm:flex">
           {navItems.map(item => (
-            <li key={item.to} className="text-[18px] text-[#1e293b]">
+            <li key={item.to} className={item.label === 'Add Product' ? 'bg-green-600 cursor-pointer rounded-md border border-green-600 px-3 py-2 text-sm font-semibold text-white hover:bg-green-700' : 'text-[18px] text-[#1e293b]'}>
               <Link to={item.to}>{item.label}</Link>
             </li>
           ))}
@@ -55,7 +60,7 @@ const Header = () => {
         <div className="border-t border-slate-200 px-4 py-3 sm:hidden">
           <ul className="flex flex-col gap-3">
             {navItems.map(item => (
-              <li key={item.to} className="text-base text-[#1e293b]">
+              <li key={item.to} className={item.label === 'Add Product' ? 'bg-green-600 w-fit cursor-pointer rounded-md border border-green-600 px-3 py-2 text-sm font-semibold text-white' : 'text-base text-[#1e293b]'}>
                 <Link to={item.to} onClick={() => setMenuOpen(false)}>{item.label}</Link>
               </li>
             ))}
